@@ -63,6 +63,10 @@ Make service and timer unit files:
 - The files are named; `generate-index.service` and `generate-index.timer`.
 - The timer file needs to activate the service at 5am everday.
 
+cd into `/etc/systemd/system`.
+
+run `sudo touch {generate-index.service,generate-index.timer}`.
+
 ### Service file:
 
 ```code
