@@ -2,7 +2,7 @@
 
 ## Part1
 
-### Step1
+### Task1
 
 Create a new system user with the following:
 - Home directory located at `var/lib/webgen`.
@@ -53,3 +53,55 @@ To give ownership of the webgen directory and any files or sub directories insid
 ```bash
 sudo chown -R webgen:webgen /var/lib/webgen
 ```
+
+### Task2
+
+Make service and timer unit files:
+- Service file that runs the generate_index script located at `/var/lib/webgen/bin/generate_index`.
+- Timer unit file that runs the service file.
+- The files will be put into the `/etc/systemd/system` directory.
+- The files are named; `generate-index.service` and `generate-index.timer`.
+- The timer file needs to activate the service at 5am everday.
+
+### Service file:
+
+```code
+[Unit]
+Description=Runs the generate_index script.
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/var/lib/webgen/bin/generate_index
+
+[Install]
+WantedBy=multi-user.target
+```
+
+`After` and `Requires` ensure that the serivce will only run after `network-online.target` is already running.
+
+`ExecStart` is the location of the script the service needs to run.
+
+### Timer file:
+
+```code
+[Unit]
+Description=Run generate-index.service at 5am daily
+
+[Timer]
+OnCalendar=*-*-* 5:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+To active the timer run `sudo systemctl start generate-index.timer`.
+
+To see if the timer will execute the service file, run `systemctl status generate-index.timer`.
+
+### Task3
+
+Modfiy the main `nginx.conf` file:
+- one.
