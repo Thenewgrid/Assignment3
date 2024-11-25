@@ -110,4 +110,13 @@ To see if the timer will execute the service file, run `systemctl status generat
 ### Task3
 
 Modfiy the main `nginx.conf` file:
-- one.
+- To make the server run as `webgen`.
+- Make a seperate server block for nginx to serve `index.html` on port 80.
+
+To make the server run as webgen:
+
+```bash
+ cd /etc/nginx
+```
+
+Then write `user webgen;` at the top of the `nginx.conf` file.
