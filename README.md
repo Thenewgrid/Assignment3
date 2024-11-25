@@ -76,6 +76,8 @@ After=network-online.target
 Requires=network-online.target
 
 [Service]
+User=webgen
+Group=webgen
 Type=oneshot
 ExecStart=/var/lib/webgen/bin/generate_index
 
