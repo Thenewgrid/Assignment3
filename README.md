@@ -112,6 +112,13 @@ To see if the timer will execute the service file, run `systemctl status generat
 Modfiy the main `nginx.conf` file:
 - To make the server run as `webgen`.
 - Make a seperate server block for nginx to serve `index.html` on port 80.
+- FOR ME:
+- show new config at https://wiki.archlinux.org/title/Nginx.
+- sites enabled, sites available
+- creating the symlink.
+- sudo nginx -t
+- sudo systemctl reload nginx.
+- sudo systemctl start nginx.
 
 To make the server run as webgen:
 
@@ -120,3 +127,13 @@ To make the server run as webgen:
 ```
 
 Then write `user webgen;` at the top of the `nginx.conf` file.
+
+### Task4
+
+done in class try to remember steps.
+
+also check course git lab.
+
+### Task5
+
+screen shot.
