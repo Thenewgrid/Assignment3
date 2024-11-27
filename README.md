@@ -223,7 +223,7 @@ Reload the service
 ```bash
 sudo systemctl reload nginx
 ```
-Now start it again.
+Now start the service again.
 
 Why is it important to use a separate server block file instead of modifying the main 
 nginx.conf file directly?
@@ -236,9 +236,51 @@ Run `sudo nginx -t` to see if the `nginx.conf` file is running properly.
 
 ### Task4
 
-done in class try to remember steps.
+Set up a firewall with ufw:
+- Install ufw.
+- Allow ssh and http.
+- Enable ssh rate limiting.
+- Check firewall status.
 
-also check course git lab.
+Install the ufw firewall package with;
+
+```bash
+sudo pacman -S ufw
+```
+
+The firewall is by default configured to deny everthing coming in, so we will allow `http` and `ssh`.
+
+**Allow HTTP**
+
+```bash
+sudo ufw allow ssh
+```
+
+We also want to limit ssh, so that when too many attempts are made in a short period of time the firewall will block them.
+
+```bash
+sudo ufw limit ssh
+```
+
+**Allow SSH**
+
+```bash
+sudo ufw allow http
+```
+
+**Enable the firewall**
+
+Check the status of the firewall to make sure that all the configurations block and allow as intended.
+
+```bash
+sudo ufw status verbose
+```
+
+Enable the firewall.
+
+```bash
+sudo ufw enable
+```
 
 ### Task5
 
