@@ -112,21 +112,127 @@ To see if the timer will execute the service file, run `systemctl status generat
 Modfiy the main `nginx.conf` file:
 - To make the server run as `webgen`.
 - Make a seperate server block for nginx to serve `index.html` on port 80.
-- FOR ME:
-- show new config at https://wiki.archlinux.org/title/Nginx.
-- sites enabled, sites available
-- creating the symlink.
-- sudo nginx -t
-- sudo systemctl reload nginx.
-- sudo systemctl start nginx.
+
+Delete the default config file.
+
+```bash
+sudo rm /etc/nginx/nginx.conf
+```
+
+To make a new one. Copy the following configuration.
+
+**configuration:**
+
+```bash
+user http;
+worker_processes auto;
+worker_cpu_affinity auto;
+
+events {
+    multi_accept on;
+    worker_connections 1024;
+}
+
+http {
+    charset utf-8;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    server_tokens off;
+    log_not_found off;
+    types_hash_max_size 4096;
+    client_max_body_size 16M;
+
+    # MIME
+    include mime.types;
+    default_type application/octet-stream;
+
+    # logging
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log warn;
+
+    # load configs
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+```
+
+Now paste what you copied into the new file.
+
+```bash
+sudo nvim /etc/nginx/nginx.conf
+```
 
 To make the server run as webgen:
 
+Edit the `/etc/nginx/nginx.conf` file from `user http;` to `user webgen;`.
+
 ```bash
- cd /etc/nginx
+user webgen;
 ```
 
-Then write `user webgen;` at the top of the `nginx.conf` file.
+Run the following command to make the two directories, `sites-available` and `sites-enabled`.
+
+```bash
+sudo mkdir -p /etc/nginx/{sites-available,sites-enabled}
+```
+
+Inside the `sites-available` directory, make a `webgen.conf` file.
+
+```bash
+sudo touch /etc/nginx/sites-available/webgen.conf
+```
+
+In the `webgen.conf` file put the following.
+
+```bash
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name 146.190.124.7;
+
+        root  /var/lib/webgen/HTML;
+        index index.html;
+
+        location / {
+
+         try_files $uri $uri/ =404;
+
+}
+
+}
+```
+
+To make the site available we make a symlink that is tored in `sites-enabled`.
+
+```bash
+sudo ln -s /etc/nginx/sites-available/webgen.conf /etc/nginx/sites-enabled/webgen.conf
+```
+
+Run `sudo nginx -t` to see if the `nginx.conf` file is running properly.
+
+Start the service
+
+```bash
+sudo systemctl start nginx
+```
+
+Reload the service
+
+```bash
+sudo systemctl reload nginx
+```
+Now start it again.
+
+Why is it important to use a separate server block file instead of modifying the main 
+nginx.conf file directly?
+
+We can configure multiple sites using several server blocks.
+
+How can you check the status of the nginx services and test your nginx configuration?
+
+Run `sudo nginx -t` to see if the `nginx.conf` file is running properly.
 
 ### Task4
 
@@ -136,4 +242,4 @@ also check course git lab.
 
 ### Task5
 
-screen shot.
+[picture5](task5_screen)
