@@ -250,7 +250,7 @@ sudo pacman -S ufw
 
 The firewall is by default configured to deny everthing coming in, so we will allow `http` and `ssh`.
 
-**Allow HTTP**
+**Allow SSH**
 
 ```bash
 sudo ufw allow ssh
@@ -262,7 +262,7 @@ We also want to limit ssh, so that when too many attempts are made in a short pe
 sudo ufw limit ssh
 ```
 
-**Allow SSH**
+**Allow HTTP**
 
 ```bash
 sudo ufw allow http
