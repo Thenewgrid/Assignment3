@@ -242,4 +242,4 @@ also check course git lab.
 
 ### Task5
 
-[picture5](task5_screen)
+![picture](task5_screen.png "The screen shot")
